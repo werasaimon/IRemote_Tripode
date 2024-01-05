@@ -1,2 +1,1 @@
-# IRemote_Tripode
-C++ , esp32 , bno080 
+# UI-Remote_Tripode

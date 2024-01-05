@@ -1,47 +1,39 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QCloseEvent>
 #include <QMainWindow>
+#include <QTimer>
+#include <QUdpSocket>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
-#include <QTimer>
-#include <QCloseEvent>
-#include <QUdpSocket>
-#include <SDL2/SDL.h>
+#include "ijoystick.h"
+
 //#include <QtGamepad/qgamepad.h>
 
-
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
-
-
-
-//struct InterfaceCommunication
-//{
-//    InterfaceCommunication(int _a = 0, int _b = 0, int _c = 0, int _d = 0, int _e = 0, int _f = 0, char _buttonState = 0)
-//        : a(_a), b(_b), c(_c), d(_d), e(_e), f(_f), buttonState(_buttonState)
-//    {
-//    }
-
-//    int16_t a;
-//    int16_t b;
-//    int16_t c;
-//    int16_t d;
-//    int16_t e;
-//    int16_t f;
-//    int16_t buttonState;
-
-//};
-
 
 struct alignas(16) InterfaceCommunication
 {
-    InterfaceCommunication(int16_t _a = 0, int16_t _b = 0, int16_t _c = 0,
-                           int16_t _d = 0, int16_t _e = 0, int16_t _f = 0 , int16_t _buttonState = 0)
-        : a(_a), b(_b), c(_c), d(_d), e(_e), f(_f), buttonState(_buttonState)
-    {
-    }
+    InterfaceCommunication(int16_t _a = 0,
+                           int16_t _b = 0,
+                           int16_t _c = 0,
+                           int16_t _d = 0,
+                           int16_t _e = 0,
+                           int16_t _f = 0,
+                           int16_t _buttonState = 0)
+        : a(_a)
+        , b(_b)
+        , c(_c)
+        , d(_d)
+        , e(_e)
+        , f(_f)
+        , buttonState(_buttonState)
+    {}
 
     int16_t a;
     int16_t b;
@@ -114,7 +106,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-
     void sendCommandToSerialPortAndUDP();
     void closeEvent(QCloseEvent *event);
 
@@ -145,7 +136,6 @@ private slots:
 
     void on_horizontalSlider_C_sliderReleased();
 
-
     void on_horizontalSlider_D_valueChanged(int value);
 
     void on_horizontalSlider_E_valueChanged(int value);
@@ -171,7 +161,6 @@ private slots:
     void on_dial_angle_roll_valueChanged(int value);
 
     //void on_pushButton_Reset_clicked();
-
 
     void on_pushButton_Shot_pressed();
 
@@ -218,14 +207,13 @@ private slots:
     void on_comboBox_TimeShot_currentTextChanged(const QString &arg1);
 
 private:
-
     Ui::MainWindow *ui;
 
     //-----------------------//
     QString mControlMode;
     //------------------------//
-    QSerialPort* mSerialPort;
-    QSerialPort* mSerialPortInfo;
+    QSerialPort *mSerialPort;
+    QSerialPort *mSerialPortInfo;
     //------------------------//
     QString mSerialPortName;
     //-----------------------//
@@ -235,6 +223,7 @@ private:
     quint16 m_Port;
     QUdpSocket *mSocketUDP;
     //-----------------------//
+    IJoystick mJoystick;
 
     bool m_isInitJoysick;
     SDL_Joystick *joystick;
@@ -261,6 +250,5 @@ private:
     //-----------------------//
 
     int invert;
-
 };
 #endif // MAINWINDOW_H
